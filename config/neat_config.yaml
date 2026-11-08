@@ -1,0 +1,83 @@
+# ============================================================
+# Configuración del algoritmo NEAT
+# ============================================================
+# Estos parámetros controlan CÓMO evoluciona la población.
+# Son los "hiperparámetros" del proceso evolutivo.
+
+# --- Población ---
+population:
+  size: 150                    # Número de individuos en cada generación
+  elitism: 2                   # Cuántos mejores individuos pasan directamente a la siguiente generación sin modificación
+
+# --- Genoma ---
+genome:
+  # Número de inputs y outputs (se configura automáticamente según los indicadores)
+  num_inputs: 20               # Se ajusta dinámicamente
+  num_outputs: 3               # Dirección, confianza, tamaño de posición
+  
+  # Funciones de activación disponibles para nodos ocultos
+  activation_functions:
+    - sigmoid      # f(x) = 1/(1+e^-x)  → Rango [0, 1]
+    - tanh         # f(x) = tanh(x)      → Rango [-1, 1]
+    - relu         # f(x) = max(0, x)    → Rango [0, ∞)
+    - leaky_relu   # f(x) = x if x>0 else 0.01x → Evita "neuronas muertas"
+    - identity     # f(x) = x            → Lineal, sin transformación
+
+# --- Mutación ---
+# Probabilidades de cada tipo de mutación (suman ~1.0 pero no es obligatorio)
+mutation:
+  weight_perturbation: 0.80    # Probabilidad de mutar pesos existentes
+  weight_reset: 0.10           # Probabilidad de resetear un peso a valor aleatorio
+  weight_perturbation_std: 0.5 # Desviación estándar de la perturbación gaussiana
+  bias_perturbation: 0.30      # Probabilidad de mutar biases de nodos
+  bias_reset: 0.05             # Probabilidad de reinicializar un bias
+  bias_perturbation_std: 0.2   # Intensidad de mutación de biases
+  add_node: 0.03               # Probabilidad de agregar un nodo oculto
+  remove_node: 0.02            # Probabilidad de eliminar un nodo oculto
+  add_connection: 0.05         # Probabilidad de agregar una conexión
+  remove_connection: 0.04      # Probabilidad de eliminar una conexión
+  change_activation: 0.03      # Probabilidad de cambiar la función de activación
+  # Mutaciones de parámetros de trading
+  mutate_stop_loss: 0.10       # Probabilidad de mutar el stop loss
+  mutate_take_profit: 0.10     # Probabilidad de mutar el take profit
+  mutate_position_size: 0.10   # Probabilidad de mutar el tamaño de posición
+  mutate_trailing_stop: 0.08   # Probabilidad de mutar el trailing stop
+  mutate_max_drawdown: 0.08    # Probabilidad de mutar el límite de drawdown
+  mutate_indicator_mask: 0.05  # Probabilidad de activar/desactivar un indicador
+  # Desviación de la perturbación gaussiana de los parámetros de trading,
+  # expresada como FRACCIÓN DEL RANGO de cada parámetro (0.05 = 5% del rango).
+  # Los valores que salen del rango se reflejan hacia adentro (no se pegan al borde).
+  trading_param_perturbation_std: 0.05
+
+# --- Cruce ---
+crossover:
+  rate: 0.75                   # Probabilidad de cruce vs mutación asexual
+  interspecies_rate: 0.001     # Probabilidad de cruce entre especies diferentes
+
+# --- Especiación ---
+speciation:
+  # Coeficientes para la función de distancia entre genomas
+  # distance = c1*(excess/N) + c2*(disjoint/N) + c3*avg_weight_diff
+  c1: 1.0                     # Peso de genes excess (no compartidos, al final)
+  c2: 1.0                     # Peso de genes disjoint (no compartidos, en medio)
+  c3: 0.4                     # Peso de diferencia promedio de pesos
+  compatibility_threshold: 2.0 # Umbral inicial; se ajusta dinámicamente
+  min_species_size: 3          # Tamaño mínimo después del periodo de gracia
+  max_stagnation: 15           # Generaciones sin mejora antes de extinguir especie
+  target_species_min: 5        # Rango objetivo de diversidad
+  target_species_max: 12
+  threshold_step: 0.10         # Ajuste máximo del umbral por generación
+  threshold_min: 0.50
+  threshold_max: 6.00
+  species_grace_period: 3      # Protege especies estructurales nuevas
+  c4: 0.10                     # Parámetros de riesgo influyen poco
+  c5: 0.40                     # La selección de indicadores sí distingue estrategias
+
+# --- Evolución ---
+evolution:
+  generations: 200             # Máximo de generaciones por ventana Walk-Forward
+  early_stopping_patience: 30  # Parar si no hay mejora en N generaciones
+  min_generations: 20          # Generaciones mínimas antes de permitir early stopping
+  checkpoint_interval: 10      # Guardar estado cada N generaciones
+  workers: 1                   # Procesos para evaluar genomas en paralelo (1 = secuencial)
+  seeds: [42]                  # Semillas por defecto; usar >=5 para conclusiones robustas

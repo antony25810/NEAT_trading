@@ -1,0 +1,360 @@
+Título
+
+Sistema de Neuroevolución Basado en NEAT para la Optimización Automática de Estrategias de Trading Algorítmico mediante Aprendizaje Evolutivo Multiobjetivo
+
+Objetivo General
+
+Desarrollar un sistema basado en algoritmos genéticos y neuroevolución capaz de descubrir automáticamente estrategias de trading rentables y robustas mediante la evolución simultánea de:
+
+Arquitectura de la red neuronal.
+Conexiones neuronales.
+Pesos.
+Selección de indicadores técnicos.
+Parámetros de gestión del riesgo.
+Umbrales de decisión.
+
+Todo ello validado mediante Walk-Forward Analysis para minimizar el sobreajuste temporal.
+
+Hipótesis
+
+Una estrategia de trading evolucionada mediante neuroevolución, considerando simultáneamente arquitectura neuronal, gestión del riesgo y selección automática de variables, puede obtener un desempeño más robusto fuera de muestra que una estrategia diseñada manualmente.
+
+Arquitectura General
+
+                DATOS HISTÓRICOS
+         OHLCV + Indicadores Técnicos
+                     │
+                     ▼
+           Normalización de variables
+                     │
+                     ▼
+       División Walk Forward (Train/Test)
+                     │
+                     ▼
+         Generación de población inicial
+         (Redes mínimas tipo NEAT)
+                     │
+                     ▼
+        Simulación completa de trading
+                     │
+                     ▼
+             Cálculo del Fitness
+                     │
+        ┌────────────┼─────────────┐
+        ▼            ▼             ▼
+    Selección      Cruce       Mutación
+        │
+        ▼
+      Nueva generación
+        │
+        ▼
+ ¿Convergencia?
+        │
+   Sí ─────────► Mejor individuo
+        │
+        ▼
+ Paper Trading / Test Out-of-Sample
+
+
+
+¿Qué evoluciona exactamente?
+
+Aquí está la principal mejora.
+
+Cada individuo NO representa únicamente una red neuronal.
+
+Representa un sistema completo de trading.
+
+Individuo
+
+├── Arquitectura neuronal
+│      ├── Número de capas
+│      ├── Número de neuronas
+│      ├── Funciones de activación
+│      └── Conexiones
+│
+├── Pesos
+│
+├── Selección de indicadores
+│      ├── RSI
+│      ├── MACD
+│      ├── ATR
+│      ├── ADX
+│      ├── Bollinger
+│      ├── Momentum
+│      └── Volumen
+│
+├── Gestión de riesgo
+│      ├── Stop Loss
+│      ├── Take Profit
+│      ├── Trailing Stop
+│      ├── Máximo Drawdown permitido
+│      └── Position Size
+│
+└── Umbrales de decisión
+
+En otras palabras:
+
+El algoritmo no sólo encuentra la mejor red. Encuentra la mejor estrategia completa.
+
+Entradas de la red
+
+Entradas = [
+
+# Retornos
+retorno_1d,
+retorno_5d,
+retorno_20d,
+
+# Tendencia
+distancia_SMA20,
+distancia_SMA50,
+distancia_SMA200,
+
+# Momentum
+RSI,
+MACD,
+MACD_hist,
+ROC,
+Momentum,
+
+# Volatilidad
+ATR,
+BB_width,
+Volatilidad_20d,
+
+# Volumen
+OBV,
+Volumen_relativo,
+
+# Régimen
+ADX,
+Pendiente_SMA200,
+Indice_VIX (opcional)
+]
+
+Todas normalizadas entre -1 y 1.
+
+Salidas
+
+Salida 1
+
+Dirección
+
+[-1 , 1]
+
+-1 vender
+
++1 comprar
+
+
+Salida 2
+
+Confianza
+
+[0,1]
+
+
+Salida 3
+
+Tamaño de posición
+
+[0,1]
+
+Inicialización
+
+Todas las redes comienzan así
+
+Entradas
+
+↓
+
+Salidas
+
+Sin capas ocultas.
+
+La complejidad aparece únicamente cuando mejora el fitness.
+
+Mutaciones
+
+Cambiar pesos
+
+Agregar neurona
+
+Eliminar neurona
+
+Agregar conexión
+
+Eliminar conexión
+
+Cambiar activación
+
+Modificar Stop Loss
+
+Modificar Take Profit
+
+Modificar Position Size
+
+Activar/desactivar indicadores
+
+Modificar Learning Rate
+
+Cruce
+
+NEAT utiliza Innovation Numbers.
+
+Evaluación
+
+Cada individuo realiza un backtesting completo.
+
+Train
+
+↓
+
+Comprar
+
+↓
+
+Mantener
+
+↓
+
+Vender
+
+↓
+
+Actualizar capital
+
+↓
+
+Registrar métricas
+
+↓
+
+Fitness
+
+No se entrena con Backpropagation.
+
+Toda la inteligencia surge de la evolución.
+
+Función Fitness
+
+Fitness=0.30S+0.20So+0.15C+0.15PF+0.10WR−0.25DD−0.10OT
+
+Donde
+
+S = Sharpe
+
+So = Sortino
+
+C = Calmar
+
+PF = Profit Factor
+
+WR = Win Rate
+
+DD = Drawdown máximo
+
+OT = Overtrading
+
+También agregaría
+
+if operaciones < 10:
+    fitness -= 100
+
+if rentabilidad < 0:
+    fitness -= 100
+
+if drawdown > 0.30:
+    fitness -= 100
+
+if profit_factor < 1:
+    fitness -= 100
+
+Así se eliminan individuos inviables rápidamente.
+
+Validación
+
+Utilizaría Walk Forward.
+
+2010-2015
+
+Entrenamiento
+
+2016
+
+Validación
+
+2017
+
+Test
+
+↓
+
+Mover ventana
+
+↓
+
+2011-2016
+
+Entrenamiento
+
+2017
+
+Validación
+
+2018
+
+Test
+
+↓
+
+Mover ventana
+
+Al final
+
+Promedio de todos los tests.
+
+No importa si una estrategia gana mucho en un año; lo importante es que funcione de forma consistente en distintos periodos.
+
+Evitar Overfitting
+
+El proyecto debe incorporar explícitamente medidas contra los sesgos más comunes:
+
+Walk-Forward Validation.
+Datos Out-of-Sample.
+Penalización por complejidad (redes demasiado grandes).
+Costos reales de transacción.
+Slippage.
+Restricciones de liquidez.
+Normalización usando sólo información disponible hasta el instante actual.
+Separación estricta entre entrenamiento y prueba para evitar fuga de información (data leakage).
+
+Tecnologías
+Python
+
+NumPy
+
+Pandas
+
+PyTorch
+
+NEAT-Python
+
+Backtesting.py
+
+VectorBT
+
+TA-Lib
+
+Matplotlib
+
+Posibles extensiones
+
+Una vez completada la versión base, podrías ampliar el proyecto con:
+
+Optimización multiobjetivo mediante NSGA-II, buscando simultáneamente maximizar rentabilidad y minimizar drawdown.
+Coevolución de agentes especializados (por ejemplo, uno para mercados alcistas y otro para mercados bajistas).
+Sustituir la red densa por una LSTM o una Transformer para capturar dependencias temporales más largas.
+Aprendizaje continuo (online learning), permitiendo que la población siga evolucionando con datos nuevos.
+Evolución de un portafolio completo con múltiples activos y asignación dinámica de capital.

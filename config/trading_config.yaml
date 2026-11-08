@@ -1,0 +1,109 @@
+# ============================================================
+# Configuración de Trading
+# ============================================================
+# Parámetros que simulan las condiciones REALES del mercado.
+# Sin esto, el backtesting sería irreal y el sistema haría overfitting.
+
+# --- Capital ---
+capital:
+  initial: 100000             # Capital inicial en MXN
+  currency: "MXN"             # Moneda base
+
+# --- Activos ---
+assets:
+  - symbol: "BTC-MXN"         # Bitcoin en pesos mexicanos
+    name: "Bitcoin/MXN"
+  - symbol: "ETH-MXN"         # Ethereum en pesos mexicanos
+    name: "Ethereum/MXN"
+
+# --- Costos de transacción ---
+# Estos costos simulan lo que cobran los exchanges reales (ej: Bitso)
+costs:
+  commission: 0.0065          # Comisión por operación: 0.65% (Bitso maker/taker promedio)
+  slippage: 0.001             # Deslizamiento: 0.1% (diferencia entre precio deseado y ejecutado)
+  # Nota: La comisión se aplica tanto al abrir como al cerrar la posición
+  # Costo total por trade round-trip ≈ 2 * (0.65% + 0.1%) = ~1.5%
+
+# --- Gestión de riesgo (rangos para evolución) ---
+# El genoma de cada individuo tendrá valores dentro de estos rangos
+risk:
+  stop_loss:
+    min: 0.01                 # Mínimo 1% de stop loss
+    max: 0.15                 # Máximo 15% de stop loss
+  take_profit:
+    min: 1.0                 # Mínimo 100% de take profit
+    max: 5.0                 # Máximo 500% de take profit
+  trailing_stop:
+    min: 0.005                # Mínimo 0.5% de trailing stop
+    max: 0.10                 # Máximo 10% de trailing stop
+  max_drawdown:
+    min: 0.20                 # Cortacircuito evolutivo mínimo
+    max: 0.45                 # Drawdown máximo permitido
+  position_size:
+    min: 0.40                 # Mínimo 40% del capital por operación
+    max: 1.0                  # Máximo 100% del capital por operación
+
+# --- Timeframes ---
+timeframes:
+  - interval: "1d"            # Barras diarias
+    name: "Diario"
+  - interval: "1h"            # Barras horarias
+    name: "Horario"
+
+# --- Walk-Forward ---
+walk_forward:
+  train_years: 3              # Años de datos para entrenamiento (3 → varias ventanas OOS desde 2019)
+  val_years: 1                # Años de datos para validación
+  test_years: 1               # Años de datos para prueba out-of-sample
+  step_years: 1               # Años que avanza la ventana entre iteraciones
+  mode: "sliding"             # "sliding" (ventana fija) o "expanding" (ventana crece)
+  validation_top_k: 5         # Validar varios candidatos fuertes por generación
+  # --- Control del sobreajuste a validación ---
+  # "min":  score = min(train, val)  → castiga candidatos con val "afortunado"
+  # "mean": score = (train + val) / 2
+  # "val":  score = val (comportamiento anterior, más optimista)
+  selection_metric: "min"
+  val_smoothing: 3            # Generaciones para suavizar la mediana de val (early stopping)
+
+# --- Umbrales de decisión ---
+decision:
+  confidence_threshold: 0.3   # Mínima confianza para abrir posición (output 2 de la red)
+  direction_threshold: 0.2    # |dirección| mínima para considerar LONG/SHORT
+  min_trades: 2               # Mínimo de operaciones para considerar un individuo válido
+  allow_short: false          # Bitso spot no permite cortos; true sólo con derivados/margen
+
+# --- Benchmarks de referencia (evaluados en cada ventana de test) ---
+benchmarks:
+  sma_fast: 50                # Cruce de medias: largo si SMA rápida > SMA lenta
+  sma_slow: 200
+
+# --- Fitness robusto ---
+fitness:
+  complexity_penalty_coeff: 0.004
+  max_annual_turnover: 6.0    # Capital rotado por año antes de penalizar
+  drawdown_soft_limit: 0.35   # A partir de 35% la penalización crece al cuadrado
+  training_subwindows: 3      # Exige desempeño en varios regímenes de train
+  worst_window_weight: 0.30   # Peso del peor subperiodo frente a la mediana
+
+# --- API REST de Bitso (Alimentador en Vivo) ---
+# Los endpoints de OHLC y Order Book son públicos.
+bitso_api:
+  base_url: "https://api.bitso.com/api/v3"
+  ohlc_endpoint: "/ohlc"
+  order_book_endpoint: "/order_book/"
+  book: "btc_mxn"             # Libro en Bitso (ej: "btc_mxn", "eth_mxn")
+  time_bucket: 86400          # Vela diaria en segundos (86400 = 1d, 3600 = 1h)
+  lookback_bars: 260          # Últimas 260 velas diarias cerradas (SMA200 + Z-score 252)
+  warmup_extra_bars: 0        # Barras extra opcionales si deseas ventana completa post-SMA200
+  timeout_seconds: 15
+  max_retries: 3
+  api_key: ""                 # Opcional para endpoints públicos; requerido si migras a órdenes reales
+  api_secret: ""              # Opcional (recomendado usar variable de entorno BITSO_API_SECRET)
+
+# --- Paper Trading en Vivo (Ejecución Diaria y Auditoría) ---
+paper_trading:
+  champion_genome_path: "runs/run_BTC_MXN_1d_20261107_125714_seed2026/window_1/best_genome.json"
+  fallback_genome_path: "models/best_genome_seed2026_w1.json"
+  close_hour_utc: "18:00"     # Hora objetivo de ejecución en programador de tareas (ej: 18:00 UTC o 00:00 UTC)
+  trades_csv_path: "live_trades.csv"
+  state_json_path: "live_state.json"

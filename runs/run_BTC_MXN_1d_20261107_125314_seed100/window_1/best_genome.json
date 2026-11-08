@@ -1,0 +1,371 @@
+{
+  "genome_id": 8720,
+  "num_inputs": 18,
+  "num_outputs": 3,
+  "fitness": 0.5238750053939162,
+  "adjusted_fitness": null,
+  "species_id": null,
+  "trading_params": {
+    "stop_loss": 0.07030184912099106,
+    "take_profit": 0.17911780349670037,
+    "trailing_stop": 0.09106861248453453,
+    "max_drawdown": 0.33485027660232264,
+    "position_size": 0.8347161999406805
+  },
+  "indicator_mask": {
+    "retorno_1d": false,
+    "retorno_5d": true,
+    "retorno_20d": true,
+    "distancia_SMA20": false,
+    "distancia_SMA50": false,
+    "distancia_SMA200": true,
+    "RSI": true,
+    "MACD": false,
+    "MACD_hist": false,
+    "ROC": false,
+    "Momentum": true,
+    "ATR": false,
+    "BB_width": false,
+    "Volatilidad_20d": false,
+    "OBV": false,
+    "Volumen_relativo": false,
+    "ADX": false,
+    "Pendiente_SMA200": false
+  },
+  "nodes": {
+    "0": {
+      "node_id": 0,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "1": {
+      "node_id": 1,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "2": {
+      "node_id": 2,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "3": {
+      "node_id": 3,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "4": {
+      "node_id": 4,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "5": {
+      "node_id": 5,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "6": {
+      "node_id": 6,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "7": {
+      "node_id": 7,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "8": {
+      "node_id": 8,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "9": {
+      "node_id": 9,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "10": {
+      "node_id": 10,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "11": {
+      "node_id": 11,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "12": {
+      "node_id": 12,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "13": {
+      "node_id": 13,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "14": {
+      "node_id": 14,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "15": {
+      "node_id": 15,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "16": {
+      "node_id": 16,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "17": {
+      "node_id": 17,
+      "node_type": "input",
+      "activation": "identity",
+      "bias": 0.0
+    },
+    "18": {
+      "node_id": 18,
+      "node_type": "output",
+      "activation": "tanh",
+      "bias": -2.0677934476878357
+    },
+    "19": {
+      "node_id": 19,
+      "node_type": "output",
+      "activation": "sigmoid",
+      "bias": -0.09469530508654449
+    },
+    "20": {
+      "node_id": 20,
+      "node_type": "output",
+      "activation": "sigmoid",
+      "bias": 0.673970831358873
+    },
+    "22": {
+      "node_id": 22,
+      "node_type": "hidden",
+      "activation": "sigmoid",
+      "bias": -0.31146656522637917
+    },
+    "23": {
+      "node_id": 23,
+      "node_type": "hidden",
+      "activation": "leaky_relu",
+      "bias": -0.12922467796527565
+    },
+    "24": {
+      "node_id": 24,
+      "node_type": "hidden",
+      "activation": "sigmoid",
+      "bias": 0.26103644382728775
+    },
+    "29": {
+      "node_id": 29,
+      "node_type": "hidden",
+      "activation": "sigmoid",
+      "bias": 0.41305832108183255
+    },
+    "30": {
+      "node_id": 30,
+      "node_type": "hidden",
+      "activation": "leaky_relu",
+      "bias": -2.4968550820558546
+    },
+    "40": {
+      "node_id": 40,
+      "node_type": "hidden",
+      "activation": "tanh",
+      "bias": -0.7276673884692629
+    },
+    "41": {
+      "node_id": 41,
+      "node_type": "hidden",
+      "activation": "sigmoid",
+      "bias": 0.46085078695216
+    },
+    "43": {
+      "node_id": 43,
+      "node_type": "hidden",
+      "activation": "relu",
+      "bias": 0.6744433146259806
+    },
+    "52": {
+      "node_id": 52,
+      "node_type": "hidden",
+      "activation": "sigmoid",
+      "bias": 0.46571729850645055
+    }
+  },
+  "connections": {
+    "4": {
+      "in_node": 1,
+      "out_node": 18,
+      "weight": -2.1935864516510706,
+      "enabled": true,
+      "innovation": 4,
+      "disabled_by_indicator": false
+    },
+    "5": {
+      "in_node": 1,
+      "out_node": 19,
+      "weight": -4.8444367122548995,
+      "enabled": true,
+      "innovation": 5,
+      "disabled_by_indicator": false
+    },
+    "6": {
+      "in_node": 1,
+      "out_node": 20,
+      "weight": -3.8857399591896282,
+      "enabled": true,
+      "innovation": 6,
+      "disabled_by_indicator": false
+    },
+    "7": {
+      "in_node": 2,
+      "out_node": 18,
+      "weight": -0.4414142212854221,
+      "enabled": true,
+      "innovation": 7,
+      "disabled_by_indicator": false
+    },
+    "8": {
+      "in_node": 2,
+      "out_node": 19,
+      "weight": 2.1576713713466003,
+      "enabled": true,
+      "innovation": 8,
+      "disabled_by_indicator": false
+    },
+    "9": {
+      "in_node": 2,
+      "out_node": 20,
+      "weight": -0.9475905143986058,
+      "enabled": true,
+      "innovation": 9,
+      "disabled_by_indicator": false
+    },
+    "16": {
+      "in_node": 5,
+      "out_node": 18,
+      "weight": -2.9557232335612924,
+      "enabled": true,
+      "innovation": 16,
+      "disabled_by_indicator": false
+    },
+    "17": {
+      "in_node": 5,
+      "out_node": 19,
+      "weight": -1.183624443544081,
+      "enabled": true,
+      "innovation": 17,
+      "disabled_by_indicator": false
+    },
+    "18": {
+      "in_node": 5,
+      "out_node": 20,
+      "weight": -0.5795197209455465,
+      "enabled": true,
+      "innovation": 18,
+      "disabled_by_indicator": false
+    },
+    "19": {
+      "in_node": 6,
+      "out_node": 18,
+      "weight": 3.8469402312594982,
+      "enabled": true,
+      "innovation": 19,
+      "disabled_by_indicator": false
+    },
+    "20": {
+      "in_node": 6,
+      "out_node": 19,
+      "weight": 1.9998384811454573,
+      "enabled": true,
+      "innovation": 20,
+      "disabled_by_indicator": false
+    },
+    "21": {
+      "in_node": 6,
+      "out_node": 20,
+      "weight": -0.3234067106372134,
+      "enabled": true,
+      "innovation": 21,
+      "disabled_by_indicator": false
+    },
+    "31": {
+      "in_node": 10,
+      "out_node": 18,
+      "weight": 0.2838951294134072,
+      "enabled": true,
+      "innovation": 31,
+      "disabled_by_indicator": false
+    },
+    "32": {
+      "in_node": 10,
+      "out_node": 19,
+      "weight": 0.9193086944556521,
+      "enabled": true,
+      "innovation": 32,
+      "disabled_by_indicator": false
+    },
+    "33": {
+      "in_node": 10,
+      "out_node": 20,
+      "weight": -2.0889466742180103,
+      "enabled": true,
+      "innovation": 33,
+      "disabled_by_indicator": false
+    },
+    "53": {
+      "in_node": 17,
+      "out_node": 19,
+      "weight": -0.8215683277249007,
+      "enabled": true,
+      "innovation": 53,
+      "disabled_by_indicator": false
+    },
+    "61": {
+      "in_node": 10,
+      "out_node": 24,
+      "weight": 0.6859276102676056,
+      "enabled": true,
+      "innovation": 61,
+      "disabled_by_indicator": false
+    },
+    "62": {
+      "in_node": 24,
+      "out_node": 19,
+      "weight": 1.7760528344209936,
+      "enabled": true,
+      "innovation": 62,
+      "disabled_by_indicator": false
+    },
+    "266": {
+      "in_node": 52,
+      "out_node": 41,
+      "weight": 1.1088522802612717,
+      "enabled": true,
+      "innovation": 266,
+      "disabled_by_indicator": false
+    }
+  }
+}

@@ -1,0 +1,24 @@
+# Neuroevolucion NEAT - Trading Algoritmico
+# Dependencias del proyecto (probado con Python 3.13)
+
+# Datos y manipulacion numerica
+numpy>=1.26.0
+pandas>=2.1.0
+pyarrow>=14.0.0
+
+# Descarga de datos financieros y API REST en vivo
+yfinance>=0.2.31
+requests>=2.31.0
+
+# Visualizacion
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Configuracion
+pyyaml>=6.0
+
+# Testing
+pytest>=7.4.0
+
+# Nota: los indicadores tecnicos se calculan con pandas puro
+# (src/data/indicators.py), por eso ya no se requiere pandas-ta.

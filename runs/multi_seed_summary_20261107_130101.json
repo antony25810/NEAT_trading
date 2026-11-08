@@ -1,0 +1,47 @@
+{
+  "per_seed": [
+    {
+      "seed": 42,
+      "neat_return_pct": -24.08,
+      "neat_sharpe": -0.74,
+      "neat_max_dd_pct": 27.9,
+      "bh_return_pct": 273.39,
+      "bh_sharpe": 0.931
+    },
+    {
+      "seed": 100,
+      "neat_return_pct": -10.15,
+      "neat_sharpe": -0.389,
+      "neat_max_dd_pct": 17.34,
+      "bh_return_pct": 273.39,
+      "bh_sharpe": 0.931
+    },
+    {
+      "seed": 2026,
+      "neat_return_pct": -0.47,
+      "neat_sharpe": 0.03,
+      "neat_max_dd_pct": 19.47,
+      "bh_return_pct": 273.39,
+      "bh_sharpe": 0.931
+    }
+  ],
+  "mean": {
+    "neat_return_pct": -11.566666666666665,
+    "neat_sharpe": -0.36633333333333334,
+    "neat_max_dd_pct": 21.569999999999997,
+    "bh_return_pct": 273.39,
+    "bh_sharpe": 0.931
+  },
+  "std": {
+    "neat_return_pct": 11.86858177430367,
+    "neat_sharpe": 0.38550010808472324,
+    "neat_max_dd_pct": 5.5844337224108935,
+    "bh_return_pct": 0.0,
+    "bh_sharpe": 0.0
+  },
+  "run_folders": [
+    "runs\\run_BTC_MXN_1d_20261107_124813_seed42",
+    "runs\\run_BTC_MXN_1d_20261107_125314_seed100",
+    "runs\\run_BTC_MXN_1d_20261107_125714_seed2026"
+  ]
+}

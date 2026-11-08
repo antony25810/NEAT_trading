@@ -1,0 +1,42 @@
+# ============================================================
+# .gitignore - NEAT Trading System
+# ============================================================
+
+# Python byte code & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.env/
+venv.bak/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local Financial Data Cache (Parquet)
+data_cache/
+*.parquet
+
+# Runtime logs & Live Paper Trading local state
+logs/
+live_trades.csv
+live_state.json
+*.log
+*.tmp
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Scratch / legacy notes
+CAMBIOS_REFACTOR_NEAT.md
+cambios_refactor_neat/
