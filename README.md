@@ -16,7 +16,7 @@
 
 </div>
 
-## 📌 Resumen Ejecutivo (CV / Portfolio)
+## 📌 Resumen
 
 El diseño tradicional de estrategias cuantitativas adolece de **sobreajuste (overfitting)** por fijar arquitecturas de red arbitrarias, optimizar parámetros de manera aislada y carecer de control estricto sobre la fuga temporal (*data leakage*).
 
